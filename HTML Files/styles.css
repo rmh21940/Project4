@@ -1,0 +1,70 @@
+/* Global Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #0a0f1e;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Header */
+.header {
+    padding: 20px;
+    background-color: #121b35;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.header h1 {
+    font-size: 26px;
+}
+
+.header h2 {
+    font-size: 22px;
+    margin-top: 5px;
+}
+
+/* Placeholder Section */
+.content {
+    margin-top: 30px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    background-color: #1a2238;
+    border-radius: 5px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.content p {
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* Footer (Team 5 Solutions Branding) */
+footer {
+    position: absolute;
+    bottom: 10px;
+    text-align: center;
+}
+
+footer img {
+    height: 50px;
+}
+
+footer p {
+    font-size: 16px;
+    margin-top: 5px;
+    opacity: 0.8;
+}
