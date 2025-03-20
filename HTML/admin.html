@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - Cybersecurity Lab</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body id="adminPage">
+  <div class="header">
+    <h1>Virginia Western Community College</h1>
+    <h2>Cybersecurity Lab - Admin Login</h2>
+  </div>
+  <div class="content">
+    <h3>Admin Login</h3>
+    <form id="adminForm">
+      <label for="admin_name">Admin Username:</label>
+      <input type="text" id="admin_name" name="admin_name" required>
+      <label for="admin_pass">Password:</label>
+      <input type="password" id="admin_pass" name="admin_pass" required>
+      <button type="submit" id="adminLoginBtn">Login</button>
+    </form>
+    <div class="extra-buttons">
+      <button onclick="window.location.href='index.html'">Home</button>
+      <button onclick="window.open('http://localhost/phpmyadmin', '_blank')">Open phpMyAdmin</button>
+    </div>
+    <div id="errorMsg" style="color: red;"></div>
+  </div>
+  <footer>
+    <img src="images/team5-logo.png" alt="Team 5 Solutions Logo">
+    <p>Powered by Team 5 Solutions</p>
+  </footer>
+  <script src="script.js" defer></script>
+</body>
+</html>
+

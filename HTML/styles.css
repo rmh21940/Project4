@@ -13,9 +13,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start; /* Ensures content starts at the top */
+    min-height: 100vh;
     text-align: center;
+    padding-top: 20px;
 }
 
 /* Header */
@@ -36,7 +37,7 @@ body {
     margin-top: 5px;
 }
 
-/* Placeholder Section */
+/* Content Section */
 .content {
     margin-top: 30px;
     padding: 20px;
@@ -47,15 +48,25 @@ body {
     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
 }
 
-.content p {
-    font-size: 18px;
-    opacity: 0.9;
+/* Button Container for Vertical Layout */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.button-container button {
+    width: 200px;
+    height: 50px;
+    font-size: 1.2em;
+    cursor: pointer;
 }
 
 /* Footer (Team 5 Solutions Branding) */
 footer {
-    position: absolute;
-    bottom: 10px;
+    margin-top: auto;
+    padding: 10px;
     text-align: center;
 }
 

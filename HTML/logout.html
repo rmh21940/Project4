@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Logout - Cybersecurity Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body id="logoutPage">
+    <div class="header">
+      <h1>Virginia Western Community College</h1>
+      <h2>Cybersecurity Lab - Student Logout</h2>
+    </div>
+    <div class="content">
+      <h3>Student Logout</h3>
+      <form id="logoutForm">
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required />
+        <!-- Single logout button to trigger session retrieval and logout logic -->
+        <button type="button" id="logoutBtn">Logout</button>
+        <!-- This container will be populated dynamically if dropdowns are needed -->
+        <div id="dropdownContainer"></div>
+      </form>
+      <div id="successMsg" style="color: green"></div>
+      <div id="errorMsg" style="color: red"></div>
+      <div class="extra-buttons">
+        <button onclick="window.location.href='index.html'">Home</button>
+        <button onclick="window.location.href='login.html'">Go to Login</button>
+      </div>
+    </div>
+    <footer>
+      <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
+      <p>Powered by Team 5 Solutions</p>
+    </footer>
+    <script src="script.js" defer></script>
+  </body>
+</html>
