@@ -1,59 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Cybersecurity Lab</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body id="adminDashboardPage">
-  <div class="header">
-    <h1>Virginia Western Community College</h1>
-    <h2>Cybersecurity Lab - Admin Dashboard</h2>
-  </div>
-  <div class="content">
-    <h3>Manage Students</h3>
-    <form id="addStudentForm">
-      <label for="studentName">Add Student (Last Name):</label>
-      <input type="text" id="studentName" name="studentName" required>
-      <button type="submit" id="addStudentBtn">Add Student</button>
-    </form>
-    <form id="deleteStudentForm">
-      <label for="studentNameDel">Delete Student (Last Name):</label>
-      <input type="text" id="studentNameDel" name="studentName" required>
-      <button type="submit" id="deleteStudentBtn">Delete Student</button>
-    </form>
-    <div id="studentMsg" style="color: green;"></div>
-
-    <h3>Manage Classes</h3>
-    <form id="addClassForm">
-      <label for="classNum">Class Number:</label>
-      <input type="number" id="classNum" name="classNum" required>
-      <label for="className">Class Name:</label>
-      <input type="text" id="className" name="className" required>
-      <button type="submit" id="addClassBtn">Add Class</button>
-    </form>
-    <form id="deleteClassForm">
-      <label for="classNumDel">Delete Class Number:</label>
-      <input type="number" id="classNumDel" name="classNum" required>
-      <button type="submit" id="deleteClassBtn">Delete Class</button>
-    </form>
-    <div id="classMsg" style="color: green;"></div>
-
-    <h3>Generate Report</h3>
-    <button id="generateReportBtn">Generate Report</button>
-    <div id="reportSection"></div>
-
-    <div class="extra-buttons">
-      <button onclick="window.location.href='admin.html'">Back to Admin</button>
-      <button onclick="window.location.href='index.html'">Home</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - Cybersecurity Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Additional styling for layout spacing */
+      .form-field {
+        margin-bottom: 10px;
+      }
+      .action-button {
+        margin-bottom: 20px;
+      }
+      .section-divider {
+        margin: 20px 0;
+        border-bottom: 1px solid #888;
+        padding-bottom: 15px;
+      }
+    </style>
+  </head>
+  <body id="adminDashboardPage">
+    <div class="header">
+      <h1>Virginia Western Community College</h1>
+      <h2>Cybersecurity Lab - Admin Dashboard</h2>
     </div>
-  </div>
-  <footer>
-    <img src="images/team5-logo.png" alt="Team 5 Solutions Logo">
-    <p>Powered by Team 5 Solutions</p>
-  </footer>
-  <script src="script.js" defer></script>
-</body>
-</html>
+    <div
+      class="content"
+      style="
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      "
+    >
+      <!-- Manage Students Section -->
+      <section class="section-divider">
+        <h3>Manage Students</h3>
+        <form id="addStudentForm">
+          <div class="form-field">
+            <label for="studentName">Add Student (Last Name):</label><br />
+            <input type="text" id="studentName" name="studentName" required />
+          </div>
+          <div class="form-field">
+            <label for="studentClassNum">Class Number:</label><br />
+            <input
+              type="number"
+              id="studentClassNum"
+              name="studentClassNum"
+              required
+            />
+          </div>
+          <div class="form-field action-button">
+            <button type="submit" id="addStudentBtn">Add Student</button>
+          </div>
+        </form>
 
+        <form id="deleteStudentForm">
+          <div class="form-field">
+            <label for="studentNameDel">Delete Student (Last Name):</label
+            ><br />
+            <input
+              type="text"
+              id="studentNameDel"
+              name="studentName"
+              required
+            />
+          </div>
+          <div class="form-field">
+            <label for="studentClassNumDel">Class Number:</label><br />
+            <input
+              type="number"
+              id="studentClassNumDel"
+              name="studentClassNum"
+              required
+            />
+          </div>
+          <div class="form-field action-button">
+            <button type="submit" id="deleteStudentBtn">Delete Student</button>
+          </div>
+        </form>
+        <div id="studentMsg" style="color: green"></div>
+      </section>
+
+      <!-- Manage Classes Section -->
+      <section class="section-divider">
+        <h3>Manage Classes</h3>
+        <form id="addClassForm">
+          <div class="form-field">
+            <label for="classNum">Class Number:</label><br />
+            <input type="number" id="classNum" name="classNum" required />
+          </div>
+          <div class="form-field">
+            <label for="className">Class Name:</label><br />
+            <input type="text" id="className" name="className" required />
+          </div>
+          <div class="form-field action-button">
+            <button type="submit" id="addClassBtn">Add Class</button>
+          </div>
+        </form>
+
+        <form id="deleteClassForm">
+          <div class="form-field">
+            <label for="classNumDel">Delete Class Number:</label><br />
+            <input type="number" id="classNumDel" name="classNum" required />
+          </div>
+          <div class="form-field action-button">
+            <button type="submit" id="deleteClassBtn">Delete Class</button>
+          </div>
+        </form>
+        <div id="classMsg" style="color: green"></div>
+      </section>
+
+      <!-- Report Section -->
+      <section class="section-divider">
+        <h3>Generate Report</h3>
+        <!-- Instead of generating on screen, offer a download button -->
+        <button id="downloadReportBtn" type="button" class="action-button">
+          Download Report as CSV
+        </button>
+      </section>
+
+      <!-- Database Management Section -->
+      <section class="section-divider">
+        <h3>Database Management</h3>
+        <p>
+          To manually manage the database for advanced edits, you may open
+          phpMyAdmin below.
+        </p>
+        <button
+          type="button"
+          onclick="window.open('http://localhost/phpmyadmin', '_blank')"
+        >
+          Open phpMyAdmin
+        </button>
+      </section>
+
+      <!-- Logout Section -->
+      <section>
+        <button id="adminLogoutBtn" class="action-button">Logout</button>
+        <div id="adminLogoutMsg" style="color: green; margin-top: 10px"></div>
+      </section>
+    </div>
+    <footer>
+      <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
+      <p>Powered by Team 5 Solutions</p>
+    </footer>
+    <script src="script.js" defer></script>
+  </body>
+</html>

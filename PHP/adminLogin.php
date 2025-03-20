@@ -1,16 +1,26 @@
 <?php
 // PHP/adminLogin.php
-// NOTE: This version compares passwords in plain text. 
-//       In production, update to use hashed passwords with password_hash() / password_verify().
+// Plain-text password check for testing.
+// NOTE: Update to hashed passwords in production.
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 session_start();
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/db.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(["success" => false, "message" => "Invalid request method."]);
+// Check if an admin is already logged in.
+$checkActive = $pdo->query("
+    SELECT 1 FROM LoginLogs 
+    WHERE AdminName IS NOT NULL 
+      AND SessionStatus = 'IN'
+    LIMIT 1
+");
+if ($checkActive->rowCount() > 0) {
+    http_response_code(409);
+    echo json_encode(["success" => false, "message" => "An admin is already logged in. Please log out first."]);
     exit;
 }
 
@@ -23,7 +33,6 @@ if (empty($adminName) || empty($adminPassword)) {
     exit;
 }
 
-// Fetch the stored plain-text password for the admin
 $stmt = $pdo->prepare("SELECT AdminPass FROM Admins WHERE AdminName = :adminName");
 $stmt->execute([':adminName' => $adminName]);
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -38,13 +47,15 @@ if ($adminPassword === $row['AdminPass']) {
     $_SESSION['admin_logged_in'] = true;
     $_SESSION['adminName'] = $adminName;
 
-    // Insert an admin login record into LoginLogs.
-    // For admin sessions, StudentName and ClassNum remain NULL.
+    // Insert an admin login record (single-row session)
     $logStmt = $pdo->prepare("
         INSERT INTO LoginLogs (AdminName, LoginTime, SessionStatus)
         VALUES (:adminName, NOW(), 'IN')
     ");
     $logStmt->execute([':adminName' => $adminName]);
+
+    $loginNum = $pdo->lastInsertId();
+    $_SESSION['adminLoginNum'] = $loginNum;
 
     echo json_encode(["success" => true, "message" => "Admin login successful."]);
     exit;

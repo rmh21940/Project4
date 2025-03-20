@@ -1,5 +1,6 @@
 <?php
 // PHP/adminLogout.php
+
 session_start();
 header('Content-Type: application/json');
 
@@ -11,36 +12,41 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$adminName = trim($_POST['admin_name'] ?? '');
-$loginNum = trim($_POST['loginNum'] ?? '');
+$adminName = $_SESSION['adminName'] ?? null;
+$loginNum = $_SESSION['adminLoginNum'] ?? null;
 
-if (empty($adminName) || empty($loginNum)) {
+if (!$adminName) {
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "Missing admin name or login number."]);
+    echo json_encode(["success" => false, "message" => "No admin is logged in."]);
     exit;
 }
 
-// Verify the provided loginNum corresponds to an active admin session.
-$sql = "SELECT LoginNum FROM LoginLogs WHERE LoginNum = :ln AND AdminName = :an AND SessionStatus = 'IN' LIMIT 1";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':ln' => $loginNum, ':an' => $adminName]);
-$existing = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$existing) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "message" => "No matching active session found for admin."]);
-    exit;
+if (!$loginNum) {
+    $stmt = $pdo->prepare("SELECT LoginNum FROM LoginLogs WHERE AdminName = :an AND SessionStatus = 'IN' LIMIT 1");
+    $stmt->execute([':an' => $adminName]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($row) {
+        $loginNum = $row['LoginNum'];
+    } else {
+        http_response_code(400);
+        echo json_encode(["success" => false, "message" => "No active admin session found."]);
+        exit;
+    }
 }
 
-// Update the row: set LogoutTime to NOW() and change SessionStatus to 'OUT'
-$update = $pdo->prepare("
+$stmt = $pdo->prepare("
     UPDATE LoginLogs
     SET LogoutTime = NOW(),
         SessionStatus = 'OUT'
-    WHERE LoginNum = :ln AND AdminName = :an AND SessionStatus = 'IN'
+    WHERE LoginNum = :ln 
+      AND AdminName = :adminName
+      AND SessionStatus = 'IN'
 ");
-$update->execute([':ln' => $loginNum, ':an' => $adminName]);
+$stmt->execute([':ln' => $loginNum, ':adminName' => $adminName]);
 
-echo json_encode(["success" => true, "message" => "Admin logout successful. Session ID {$loginNum} closed."]);
+session_unset();
+session_destroy();
+
+echo json_encode(["success" => true, "message" => "Admin logged out successfully."]);
 exit;
 
