@@ -1,81 +1,101 @@
 /* Global Styling */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
 /* Body Styling */
 body {
-    background-color: #0a0f1e;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Ensures content starts at the top */
-    min-height: 100vh;
-    text-align: center;
-    padding-top: 20px;
+  background-color: #0a0f1e;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Ensures content starts at the top */
+  min-height: 100vh;
+  text-align: center;
+  padding-top: 20px;
 }
 
 /* Header */
 .header {
-    padding: 20px;
-    background-color: #121b35;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  background-color: #121b35;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .header h1 {
-    font-size: 26px;
+  font-size: 26px;
 }
 
 .header h2 {
-    font-size: 22px;
-    margin-top: 5px;
+  font-size: 22px;
+  margin-top: 5px;
 }
 
 /* Content Section */
 .content {
-    margin-top: 30px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    background-color: #1a2238;
-    border-radius: 5px;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 30px;
+  padding: 20px;
+  width: 90%;
+  max-width: 1000px; /* Increased to accommodate wider tables */
+  background-color: #1a2238;
+  border-radius: 5px;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
+  margin-bottom: 30px; /* Adds space at the bottom if needed */
 }
 
 /* Button Container for Vertical Layout */
 .button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
 
 .button-container button {
-    width: 200px;
-    height: 50px;
-    font-size: 1.2em;
-    cursor: pointer;
+  width: 200px;
+  height: 50px;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 /* Footer (Team 5 Solutions Branding) */
 footer {
-    margin-top: auto;
-    padding: 10px;
-    text-align: center;
+  margin-top: auto;
+  padding: 10px;
+  text-align: center;
 }
 
 footer img {
-    height: 50px;
+  height: 50px;
 }
 
 footer p {
-    font-size: 16px;
-    margin-top: 5px;
-    opacity: 0.8;
+  font-size: 16px;
+  margin-top: 5px;
+  opacity: 0.8;
+}
+
+/* Login Logs Table Styles */
+#logsTable {
+  width: 100%; /* Ensures the table fills the content container */
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+#logsTable th,
+#logsTable td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+#logsTable th {
+  background-color: #121b35;
+  color: #fff;
 }

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Login Logs - Cybersecurity Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 90%;
+        margin: 20px auto;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: center;
+      }
+      th {
+        background-color: #121b35;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Virginia Western Community College</h1>
+      <h2>Cybersecurity Lab - Login Logs</h2>
+    </div>
+    <div class="content">
+      <h3>Login Logs</h3>
+      <table id="logsTable">
+        <thead>
+          <tr>
+            <th>LoginNum</th>
+            <th>StudentName</th>
+            <th>AdminName</th>
+            <th>ClassNum</th>
+            <th>LoginTime</th>
+            <th>LogoutTime</th>
+            <th>SessionStatus</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button onclick="window.location.href='admin_dashboard.html'">
+        Back to Dashboard
+      </button>
+    </div>
+    <footer>
+      <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
+      <p>Powered by Team 5 Solutions</p>
+    </footer>
+    <script>
+      function loadLogs() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            try {
+              const response = JSON.parse(this.responseText);
+              if (response.success && response.logs) {
+                const tbody = document
+                  .getElementById("logsTable")
+                  .getElementsByTagName("tbody")[0];
+                tbody.innerHTML = "";
+                response.logs.forEach((log) => {
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = `
+                  <td>${log.LoginNum}</td>
+                  <td>${log.StudentName || ""}</td>
+                  <td>${log.AdminName || ""}</td>
+                  <td>${log.ClassNum || ""}</td>
+                  <td>${log.LoginTime}</td>
+                  <td>${log.LogoutTime || ""}</td>
+                  <td>${log.SessionStatus}</td>
+                `;
+                  tbody.appendChild(tr);
+                });
+              } else {
+                alert("No logs found.");
+              }
+            } catch (e) {
+              console.error("Error parsing logs:", e);
+            }
+          }
+        };
+        xhr.open("GET", "../PHP/getLogs.php", true);
+        xhr.send();
+      }
+      window.onload = loadLogs;
+    </script>
+  </body>
+</html>

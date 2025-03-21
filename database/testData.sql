@@ -1,9 +1,7 @@
 USE VWLogin;
 
 -- 1. Insert Students (6 students)
-INSERT INTO
-  Students (StudentName)
-VALUES
+INSERT INTO Students (StudentName) VALUES 
   ('Smith'),
   ('Johnson'),
   ('Williams'),
@@ -11,205 +9,98 @@ VALUES
   ('Davis'),
   ('Miller');
 
--- 2. Insert Classes (5 classes)
-INSERT INTO
-  Classes (ClassNum, ClassName)
-VALUES
-  (101, 'Cybersecurity 101'),
-  (102, 'Network Security'),
-  (103, 'Digital Forensics'),
-  (201, 'Cybersecurity 201'),
-  (202, 'Advanced Cybersecurity');
+-- 2. Insert Classes (20 classes in XXX999 format)
+INSERT INTO Classes (ClassNum, ClassName) VALUES 
+  ('CSC101', 'Introduction to Computer Science'),
+  ('CSC102', 'Data Structures'),
+  ('CSC201', 'Algorithms'),
+  ('CSC202', 'Computer Architecture'),
+  ('CSC301', 'Operating Systems'),
+  ('CSC302', 'Database Systems'),
+  ('CSC303', 'Networks'),
+  ('CSC304', 'Software Engineering'),
+  ('MAT101', 'Calculus I'),
+  ('MAT102', 'Calculus II'),
+  ('MAT201', 'Linear Algebra'),
+  ('PHY101', 'Physics I'),
+  ('PHY102', 'Physics II'),
+  ('ENG101', 'English Literature'),
+  ('ENG102', 'Technical Writing'),
+  ('BIO101', 'Biology I'),
+  ('BIO102', 'Biology II'),
+  ('CHE101', 'Chemistry I'),
+  ('CHE102', 'Chemistry II'),
+  ('HIS101', 'World History');
 
--- 3. Insert Enrollments
--- Each student is enrolled in one or more classes
-INSERT INTO
-  Enrollments (StudentName, ClassNum)
-VALUES
-  ('Smith', 101),
-  ('Smith', 201),
-  ('Johnson', 102),
-  ('Johnson', 103),
-  ('Williams', 101),
-  ('Williams', 102),
-  ('Brown', 103),
-  ('Brown', 202),
-  ('Davis', 201),
-  ('Miller', 202);
+-- 3. Insert Enrollments (sample enrollments)
+INSERT INTO Enrollments (StudentName, ClassNum) VALUES 
+  ('Smith', 'CSC101'),
+  ('Smith', 'CSC201'),
+  ('Johnson', 'CSC102'),
+  ('Johnson', 'CSC303'),
+  ('Williams', 'CSC101'),
+  ('Williams', 'CSC102'),
+  ('Brown', 'ENG101'),
+  ('Brown', 'ENG102'),
+  ('Davis', 'CSC201'),
+  ('Miller', 'CSC302');
 
--- 4. Insert LoginLogs entries (12 entries)
--- Using the new single-row session design with columns: LoginNum, StudentName, AdminName, ClassNum, LoginTime, LogoutTime, SessionStatus
--- Smith: Two sessions for Cybersecurity 101 (one closed, one open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Smith',
-    101,
-    '2025-03-25 08:00:00',
-    '2025-03-25 08:30:00',
-    'OUT'
-  );
+-- 4. Insert LoginLogs entries (12 entries using the single-row session design)
+-- Smith: Two sessions for CSC101 (one closed, one open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Smith', 'CSC101', '2025-03-25 08:00:00', '2025-03-25 08:30:00', 'OUT');
 
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Smith', 101, '2025-03-25 09:00:00', NULL, 'IN');
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Smith', 'CSC101', '2025-03-25 09:00:00', NULL, 'IN');
 
--- Smith: One session for Cybersecurity 201 (open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Smith', 201, '2025-03-25 09:15:00', NULL, 'IN');
+-- Smith: One session for CSC201 (open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Smith', 'CSC201', '2025-03-25 09:15:00', NULL, 'IN');
 
--- Johnson: Two sessions for Network Security (one closed, one open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Johnson',
-    102,
-    '2025-03-25 08:15:00',
-    '2025-03-25 08:45:00',
-    'OUT'
-  );
+-- Johnson: Two sessions for CSC102 (one closed, one open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Johnson', 'CSC102', '2025-03-25 08:15:00', '2025-03-25 08:45:00', 'OUT');
 
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Johnson', 102, '2025-03-25 09:05:00', NULL, 'IN');
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Johnson', 'CSC102', '2025-03-25 09:05:00', NULL, 'IN');
 
--- Williams: Two sessions for Cybersecurity 101 (both open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Williams',
-    101,
-    '2025-03-25 09:20:00',
-    NULL,
-    'IN'
-  );
+-- Williams: Two sessions for CSC101 (both open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Williams', 'CSC101', '2025-03-25 09:20:00', NULL, 'IN');
 
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Williams',
-    101,
-    '2025-03-25 09:30:00',
-    NULL,
-    'IN'
-  );
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Williams', 'CSC101', '2025-03-25 09:30:00', NULL, 'IN');
 
--- Brown: One session for Digital Forensics (closed) and one for Advanced Cybersecurity (open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Brown',
-    103,
-    '2025-03-25 08:50:00',
-    '2025-03-25 09:10:00',
-    'OUT'
-  );
+-- Brown: One session for ENG101 (closed) and one for ENG102 (open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Brown', 'ENG101', '2025-03-25 08:50:00', '2025-03-25 09:10:00', 'OUT');
 
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Brown', 202, '2025-03-25 09:40:00', NULL, 'IN');
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Brown', 'ENG102', '2025-03-25 09:40:00', NULL, 'IN');
 
--- Davis: One session for Cybersecurity 201 (open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Davis', 201, '2025-03-25 09:55:00', NULL, 'IN');
+-- Davis: One session for CSC201 (open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Davis', 'CSC201', '2025-03-25 09:55:00', NULL, 'IN');
 
--- Miller: Two sessions for Advanced Cybersecurity (one closed, one open)
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  (
-    'Miller',
-    202,
-    '2025-03-25 08:30:00',
-    '2025-03-25 09:00:00',
-    'OUT'
-  );
+-- Miller: Two sessions for CSC302 (one closed, one open)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Miller', 'CSC302', '2025-03-25 08:30:00', '2025-03-25 09:00:00', 'OUT');
 
-INSERT INTO
-  LoginLogs (
-    StudentName,
-    ClassNum,
-    LoginTime,
-    LogoutTime,
-    SessionStatus
-  )
-VALUES
-  ('Miller', 202, '2025-03-25 09:10:00', NULL, 'IN');
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('Miller', 'CSC302', '2025-03-25 09:10:00', NULL, 'IN');
+
+-- 5. Insert an Admin Account for Testing
+INSERT INTO Admins (AdminName, AdminPass)
+VALUES ('admin', 'password')
+ON DUPLICATE KEY UPDATE AdminPass = 'password';
+
+-- 6. Insert old student log in to test retention script
+-- Insert a row for a student with an "OUT" session (should be deleted by retention event)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('OldStudent1', 'CSC101', DATE_SUB(NOW(), INTERVAL 91 DAY), DATE_SUB(NOW(), INTERVAL 90 DAY), 'OUT');
+
+-- Insert a row for a student with an "IN" session (should also be deleted)
+INSERT INTO LoginLogs (StudentName, ClassNum, LoginTime, LogoutTime, SessionStatus)
+VALUES ('OldStudent2', 'CSC102', DATE_SUB(NOW(), INTERVAL 91 DAY), NULL, 'IN');
+
+

@@ -36,11 +36,8 @@ if (!$loginNum) {
 
 $stmt = $pdo->prepare("
     UPDATE LoginLogs
-    SET LogoutTime = NOW(),
-        SessionStatus = 'OUT'
-    WHERE LoginNum = :ln 
-      AND AdminName = :adminName
-      AND SessionStatus = 'IN'
+    SET LogoutTime = NOW(), SessionStatus = 'OUT'
+    WHERE LoginNum = :ln AND AdminName = :adminName AND SessionStatus = 'IN'
 ");
 $stmt->execute([':ln' => $loginNum, ':adminName' => $adminName]);
 
@@ -49,4 +46,5 @@ session_destroy();
 
 echo json_encode(["success" => true, "message" => "Admin logged out successfully."]);
 exit;
+
 

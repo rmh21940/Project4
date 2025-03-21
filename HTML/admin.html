@@ -13,7 +13,6 @@
     </div>
     <div class="content">
       <h3>Admin Login</h3>
-      <!-- Clean layout: fields on separate lines, login button beneath -->
       <form
         id="adminForm"
         style="
@@ -26,15 +25,13 @@
       >
         <label for="admin_name">Admin Username:</label>
         <input type="text" id="admin_name" name="admin_name" required />
-
         <label for="admin_pass">Password:</label>
         <input type="password" id="admin_pass" name="admin_pass" required />
-
         <button type="submit" id="adminLoginBtn" style="margin-top: 10px">
           Login
         </button>
       </form>
-      <!-- Error message area -->
+      <!-- Error message area; will also be used to show options if already logged in -->
       <div id="errorMsg" style="color: red; margin-top: 15px"></div>
     </div>
     <footer>

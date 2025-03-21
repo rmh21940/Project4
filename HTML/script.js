@@ -4,24 +4,22 @@ console.log(
   "Virginia Western Community College Cybersecurity Lab - Powered by Team 5 Solutions"
 );
 
+// Global Inactivity Timer (for login and logout pages)
+function startInactivityTimer() {
+  let inactivityTimeout;
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimeout);
+    inactivityTimeout = setTimeout(() => {
+      window.location.href = "index.html";
+    }, 300000); // 5 minutes
+  }
+  document.addEventListener("mousemove", resetInactivityTimer);
+  document.addEventListener("keydown", resetInactivityTimer);
+  resetInactivityTimer();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded and ready.");
-
-  // ---------------------
-  // Global Inactivity Timer (for login and logout pages)
-  // ---------------------
-  function startInactivityTimer() {
-    let inactivityTimeout;
-    function resetInactivityTimer() {
-      clearTimeout(inactivityTimeout);
-      inactivityTimeout = setTimeout(() => {
-        window.location.href = "index.html";
-      }, 300000);
-    }
-    document.addEventListener("mousemove", resetInactivityTimer);
-    document.addEventListener("keydown", resetInactivityTimer);
-    resetInactivityTimer();
-  }
 
   // ======================
   // Login Page Functions
@@ -45,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
             response.classes.forEach(function (cls) {
               const option = document.createElement("option");
               option.value = cls.classNum;
-              option.text = cls.className;
+              option.text = cls.classNum;
               classSelect.appendChild(option);
             });
             document.getElementById("loginSection").style.display = "block";
@@ -208,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
       for (let classNum in groups) {
         const option = document.createElement("option");
         option.value = classNum;
-        option.text = groups[classNum][0].ClassName;
+        option.text = groups[classNum][0].ClassNum;
         select.appendChild(option);
       }
       container.appendChild(select);
@@ -241,7 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const option = document.createElement("option");
         option.value = session.LoginNum;
         option.text =
-          "Session " + session.LoginNum + " (" + session.ClassName + ")";
+          "Session " + session.LoginNum + " (" + session.ClassNum + ")";
         select.appendChild(option);
       });
       container.appendChild(select);
@@ -257,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ======================
-  // Admin Page Functions
+  // Admin Page Functions (Login with Force Logout Option)
   // ======================
   if (document.body.id === "adminPage") {
     function handleAdminLogin(event) {
@@ -276,14 +274,51 @@ document.addEventListener("DOMContentLoaded", () => {
           if (this.status === 200 && response.success) {
             window.location.href = "admin_dashboard.html";
           } else {
-            document.getElementById("errorMsg").innerText =
-              response.message || "Error logging in as admin.";
+            if (response.alreadyLoggedIn) {
+              const errDiv = document.getElementById("errorMsg");
+              errDiv.innerHTML = "";
+              const messageSpan = document.createElement("span");
+              messageSpan.textContent = response.message;
+              errDiv.appendChild(messageSpan);
+              errDiv.appendChild(document.createElement("br"));
+              const forceBtn = document.createElement("button");
+              forceBtn.type = "button";
+              forceBtn.textContent = "Force Logout & Re-Login";
+              forceBtn.addEventListener("click", forceLogoutAndLogin);
+              errDiv.appendChild(forceBtn);
+              errDiv.appendChild(document.createTextNode(" "));
+              const dashBtn = document.createElement("button");
+              dashBtn.type = "button";
+              dashBtn.textContent = "Proceed to Dashboard";
+              dashBtn.addEventListener("click", () => {
+                window.location.href = "admin_dashboard.html";
+              });
+              errDiv.appendChild(dashBtn);
+            } else {
+              document.getElementById("errorMsg").innerText =
+                response.message || "Error logging in as admin.";
+            }
           }
         }
       };
       xhr.open("POST", "../PHP/adminLogin.php", true);
       xhr.send(formData);
     }
+
+    function forceLogoutAndLogin() {
+      const xhrLogout = new XMLHttpRequest();
+      xhrLogout.onreadystatechange = function () {
+        if (xhrLogout.readyState === 4 && xhrLogout.status === 200) {
+          handleAdminLogin(new Event("submit"));
+        } else if (xhrLogout.readyState === 4) {
+          document.getElementById("errorMsg").innerText =
+            "Error forcing logout.";
+        }
+      };
+      xhrLogout.open("POST", "../PHP/adminLogout.php", true);
+      xhrLogout.send();
+    }
+
     document
       .getElementById("adminForm")
       .addEventListener("submit", handleAdminLogin);
@@ -293,52 +328,74 @@ document.addEventListener("DOMContentLoaded", () => {
   // Admin Dashboard Page Functions
   // ======================
   if (document.body.id === "adminDashboardPage") {
-    function addStudent(event) {
-      event.preventDefault();
-      const form = document.getElementById("addStudentForm");
-      const formData = new FormData(form);
+    function resetDashboard() {
+      // Reset forms
+      document.getElementById("addStudentForm").reset();
+      document.getElementById("enrollStudentForm").reset();
+      document.getElementById("unenrollStudentForm").reset();
+      document.getElementById("deleteStudentForm").reset();
+      document.getElementById("addClassForm").reset();
+      document.getElementById("deleteClassForm").reset();
+      // Clear messages
+      document.getElementById("studentMsg").innerText = "";
+      document.getElementById("classMsg").innerText = "";
+      // Refresh dropdowns
+      loadAllClassesForAddStudent();
+      loadAllClassesForDelete();
+    }
+
+    // Populate dropdown for "Enroll Student" (all available classes)
+    function loadAllClassesForAddStudent() {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            document.getElementById("studentMsg").innerText = response.message;
-          } else {
-            document.getElementById("studentMsg").innerText =
-              "Error adding student.";
+        if (this.readyState === 4 && this.status === 200) {
+          const response = JSON.parse(this.responseText);
+          const select = document.getElementById("enrollClassNum");
+          select.innerHTML = "";
+          if (response.success && response.classes) {
+            response.classes.forEach(function (cls) {
+              const option = document.createElement("option");
+              option.value = cls.ClassNum;
+              option.text = cls.ClassName + " (" + cls.ClassNum + ")";
+              select.appendChild(option);
+            });
           }
         }
       };
-      xhr.open("POST", "../PHP/adminDashboard.php?action=addStudent", true);
-      xhr.send(formData);
+      xhr.open("GET", "../PHP/getAllClasses.php", true);
+      xhr.send();
     }
-    document
-      .getElementById("addStudentForm")
-      .addEventListener("submit", addStudent);
 
-    function deleteStudent(event) {
-      event.preventDefault();
-      const form = document.getElementById("deleteStudentForm");
-      const formData = new FormData(form);
+    // Populate dropdown for "Delete Class" (all available classes)
+    function loadAllClassesForDelete() {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            document.getElementById("studentMsg").innerText = response.message;
+        if (this.readyState === 4 && this.status === 200) {
+          const response = JSON.parse(this.responseText);
+          const select = document.getElementById("classNumDel");
+          select.innerHTML = "";
+          if (
+            response.success &&
+            response.classes &&
+            response.classes.length > 0
+          ) {
+            response.classes.forEach(function (cls) {
+              const option = document.createElement("option");
+              option.value = cls.ClassNum;
+              option.text = cls.ClassName + " (" + cls.ClassNum + ")";
+              select.appendChild(option);
+            });
           } else {
-            document.getElementById("studentMsg").innerText =
-              "Error deleting student.";
+            select.innerHTML = "<option value=''>No classes available</option>";
           }
         }
       };
-      xhr.open("POST", "../PHP/adminDashboard.php?action=deleteStudent", true);
-      xhr.send(formData);
+      xhr.open("GET", "../PHP/getAllClasses.php", true);
+      xhr.send();
     }
-    document
-      .getElementById("deleteStudentForm")
-      .addEventListener("submit", deleteStudent);
+    loadAllClassesForDelete();
 
+    // Add Class
     function addClass(event) {
       event.preventDefault();
       const form = document.getElementById("addClassForm");
@@ -349,6 +406,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
             document.getElementById("classMsg").innerText = response.message;
+            setTimeout(() => {
+              resetDashboard();
+            }, 5000);
           } else {
             document.getElementById("classMsg").innerText =
               "Error adding class.";
@@ -362,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .getElementById("addClassForm")
       .addEventListener("submit", addClass);
 
+    // Delete Class
     function deleteClass(event) {
       event.preventDefault();
       const form = document.getElementById("deleteClassForm");
@@ -369,13 +430,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
+          try {
             const response = JSON.parse(xhr.responseText);
             document.getElementById("classMsg").innerText = response.message;
-          } else {
+          } catch (e) {
             document.getElementById("classMsg").innerText =
-              "Error deleting class.";
+              "Error parsing server response.";
           }
+          setTimeout(() => {
+            resetDashboard();
+          }, 5000);
         }
       };
       xhr.open("POST", "../PHP/adminDashboard.php?action=deleteClass", true);
@@ -385,14 +449,185 @@ document.addEventListener("DOMContentLoaded", () => {
       .getElementById("deleteClassForm")
       .addEventListener("submit", deleteClass);
 
+    // Populate dropdown for "Unenroll Student" based on student name
+    function loadEnrolledClassesForStudent(studentName) {
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+          const response = JSON.parse(this.responseText);
+          const select = document.getElementById("unenrollClassNum");
+          if (
+            response.success &&
+            response.classes &&
+            response.classes.length > 0
+          ) {
+            select.innerHTML = "";
+            response.classes.forEach(function (cls) {
+              const option = document.createElement("option");
+              option.value = cls.ClassNum;
+              option.text = cls.ClassName + " (" + cls.ClassNum + ")";
+              select.appendChild(option);
+            });
+            document.getElementById("studentMsg").innerText = "";
+          } else {
+            select.innerHTML =
+              "<option value=''>No enrolled classes found</option>";
+            document.getElementById("studentMsg").innerText =
+              "Student is not enrolled in any class.";
+          }
+        }
+      };
+      xhr.open(
+        "GET",
+        "../PHP/getStudentEnrollments.php?studentName=" +
+          encodeURIComponent(studentName),
+        true
+      );
+      xhr.send();
+    }
+
+    // Load dropdowns on page load.
+    loadAllClassesForAddStudent();
+    loadAllClassesForDelete();
+
+    // When Unenroll Student name loses focus, load enrolled classes.
+    document
+      .getElementById("unenrollStudentName")
+      .addEventListener("blur", function () {
+        const studentName = this.value.trim();
+        if (studentName !== "") {
+          loadEnrolledClassesForStudent(studentName);
+        }
+      });
+
+    // Add Student (without enrollment)
+    function addStudent(event) {
+      event.preventDefault();
+      const form = document.getElementById("addStudentForm");
+      const formData = new FormData(form);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            document.getElementById("studentMsg").innerText = response.message;
+            setTimeout(() => {
+              resetDashboard();
+            }, 5000);
+          } else {
+            document.getElementById("studentMsg").innerText =
+              "Error adding student.";
+          }
+        }
+      };
+      xhr.open("POST", "../PHP/adminDashboard.php?action=addStudent", true);
+      xhr.send(formData);
+    }
+    document
+      .getElementById("addStudentForm")
+      .addEventListener("submit", addStudent);
+
+    // Enroll Student in Class
+    function enrollStudent(event) {
+      event.preventDefault();
+      const form = document.getElementById("enrollStudentForm");
+      const formData = new FormData(form);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            document.getElementById("studentMsg").innerText = response.message;
+            setTimeout(() => {
+              resetDashboard();
+            }, 5000);
+          } else {
+            document.getElementById("studentMsg").innerText =
+              "Error enrolling student.";
+          }
+        }
+      };
+      xhr.open("POST", "../PHP/adminDashboard.php?action=enrollStudent", true);
+      xhr.send(formData);
+    }
+    document
+      .getElementById("enrollStudentForm")
+      .addEventListener("submit", enrollStudent);
+
+    // Unenroll Student from Class
+    function unenrollStudent(event) {
+      event.preventDefault();
+      const form = document.getElementById("unenrollStudentForm");
+      const formData = new FormData(form);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            document.getElementById("studentMsg").innerText = response.message;
+            setTimeout(() => {
+              resetDashboard();
+            }, 5000);
+          } else {
+            document.getElementById("studentMsg").innerText =
+              "Error unenrolling student.";
+          }
+        }
+      };
+      xhr.open(
+        "POST",
+        "../PHP/adminDashboard.php?action=unenrollStudent",
+        true
+      );
+      xhr.send(formData);
+    }
+    document
+      .getElementById("unenrollStudentForm")
+      .addEventListener("submit", unenrollStudent);
+
+    // Delete Student (delete entirely)
+    function deleteStudent(event) {
+      event.preventDefault();
+      const form = document.getElementById("deleteStudentForm");
+      const formData = new FormData(form);
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+            document.getElementById("studentMsg").innerText = response.message;
+            setTimeout(() => {
+              resetDashboard();
+            }, 5000);
+          } else {
+            document.getElementById("studentMsg").innerText =
+              "Error deleting student.";
+          }
+        }
+      };
+      xhr.open("POST", "../PHP/adminDashboard.php?action=deleteStudent", true);
+      xhr.send(formData);
+    }
+    document
+      .getElementById("deleteStudentForm")
+      .addEventListener("submit", deleteStudent);
+
+    // Download Report as CSV
     function downloadReport(event) {
       event.preventDefault();
-      // Redirect the browser to download the CSV file.
       window.location.href = "../PHP/adminDashboard.php?action=downloadReport";
     }
     document
       .getElementById("downloadReportBtn")
       .addEventListener("click", downloadReport);
+
+    // View Logs in new window
+    document
+      .getElementById("viewLogsBtn")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = "viewLogs.html";
+      });
 
     // Admin Logout in Dashboard
     function handleAdminLogout() {
