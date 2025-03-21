@@ -4,8 +4,8 @@ $encryptionKey = 'TEAM5'; // Example only—store securely in production
 
 $host = 'localhost';
 $db = 'VWLogin';
-$user = 'root';
-$pass = ''; // Update if necessary
+$user = 'admin';
+$pass = 'password'; // Update if necessary
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);

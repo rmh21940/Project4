@@ -6,7 +6,6 @@
     <title>Admin Dashboard - Cybersecurity Lab</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-      /* Additional styling for layout spacing */
       .form-field {
         margin-bottom: 10px;
       }
@@ -23,13 +22,21 @@
         color: #ccc;
         margin-top: 5px;
       }
-      /* New container styles for side-by-side layout */
-      .top-container {
+
+      /* Grid layout with 2 rows of 2 columns */
+      .grid-container {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
+        flex-direction: column;
         gap: 20px;
       }
+
+      .row-container {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
       .half-section {
         flex: 1 1 45%;
         background-color: #1a2238;
@@ -37,7 +44,7 @@
         border-radius: 5px;
         box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
       }
-      /* Bottom container for remaining sections */
+
       .bottom-container {
         margin-top: 30px;
         display: flex;
@@ -52,124 +59,120 @@
       <h2>Cybersecurity Lab - Admin Dashboard</h2>
     </div>
     <div class="content" style="max-width: 1200px; margin: 0 auto;">
-      <!-- Top Container: Side-by-side Manage Classes and Manage Students -->
-      <div class="top-container">
-        <!-- Manage Classes Section -->
-        <div class="half-section">
-          <h3>Manage Classes</h3>
-          <!-- Add Class Form -->
-          <form id="addClassForm">
-            <div class="form-field">
-              <label for="className">Class Name:</label><br />
-              <input type="text" id="className" name="className" required />
-            </div>
-            <div class="form-field">
-              <label for="classNum">Class Number:</label><br />
-              <input type="text" id="classNum" name="classNum" required />
-              <div class="helper-text">Format should be XXX999 (e.g. CSC101)</div>
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="addClassBtn">Add Class</button>
-            </div>
-          </form>
+      <!-- Grid Container with two rows -->
+      <div class="grid-container">
+        <!-- Top Row: Manage Classes and Students -->
+        <div class="row-container">
+          <!-- Manage Classes Section -->
+          <div class="half-section">
+            <h3>Manage Classes</h3>
+            <form id="addClassForm">
+              <div class="form-field">
+                <label for="className">Class Name:</label><br />
+                <input type="text" id="className" name="className" required />
+              </div>
+              <div class="form-field">
+                <label for="classNum">Class Number:</label><br />
+                <input type="text" id="classNum" name="classNum" required />
+                <div class="helper-text">Format should be XXX999 (e.g. CSC101)</div>
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="addClassBtn">Add Class</button>
+              </div>
+            </form>
 
-          <!-- Delete Class Form -->
-          <form id="deleteClassForm">
-            <div class="form-field">
-              <label for="classNumDel">Delete Class:</label><br />
-              <!-- This will be a dropdown populated via JS -->
-              <select id="classNumDel" name="classNum" required></select>
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="deleteClassBtn">Delete Class</button>
-            </div>
-          </form>
-          <div id="classMsg" style="color: green"></div>
+            <form id="deleteClassForm">
+              <div class="form-field">
+                <label for="classNumDel">Delete Class:</label><br />
+                <select id="classNumDel" name="classNum" required></select>
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="deleteClassBtn">Delete Class</button>
+              </div>
+            </form>
+            <div id="classMsg" style="color: green"></div>
+          </div>
+
+          <!-- Manage Students Section -->
+          <div class="half-section">
+            <h3>Manage Students</h3>
+            <form id="addStudentForm">
+              <div class="form-field">
+                <label for="newStudentName">Add Student (Last Name only):</label><br />
+                <input type="text" id="newStudentName" name="studentName" required />
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="addStudentBtn">Add Student</button>
+              </div>
+            </form>
+
+            <form id="enrollStudentForm">
+              <div class="form-field">
+                <label for="enrollStudentName">Enroll Student (Last Name):</label><br />
+                <input type="text" id="enrollStudentName" name="studentName" required />
+              </div>
+              <div class="form-field">
+                <label for="enrollClassNum">Select Class to Enroll:</label><br />
+                <select id="enrollClassNum" name="classNum" required></select>
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="enrollStudentBtn">Enroll Student in Class</button>
+              </div>
+            </form>
+
+            <form id="unenrollStudentForm">
+              <div class="form-field">
+                <label for="unenrollStudentName">Unenroll Student (Last Name):</label><br />
+                <input type="text" id="unenrollStudentName" name="studentName" required />
+              </div>
+              <div class="form-field">
+                <label for="unenrollClassNum">Select Class to Unenroll From:</label><br />
+                <select id="unenrollClassNum" name="classNum" required></select>
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="unenrollStudentBtn">Unenroll Student from Class</button>
+              </div>
+            </form>
+
+            <form id="deleteStudentForm">
+              <div class="form-field">
+                <label for="deleteStudentName">Delete Student (Last Name):</label><br />
+                <input type="text" id="deleteStudentName" name="studentName" required />
+              </div>
+              <div class="form-field action-button">
+                <button type="submit" id="deleteStudentBtn">Delete Student</button>
+              </div>
+            </form>
+            <div id="studentMsg" style="color: green"></div>
+          </div>
         </div>
 
-        <!-- Manage Students Section -->
-        <div class="half-section">
-          <h3>Manage Students</h3>
-          <!-- Add Student Form (no enrollment) -->
-          <form id="addStudentForm">
-            <div class="form-field">
-              <label for="newStudentName">Add Student (Last Name only):</label><br />
-              <input type="text" id="newStudentName" name="studentName" required />
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="addStudentBtn">Add Student</button>
-            </div>
-          </form>
+        <!-- Bottom Row: Generate Report and Database Management -->
+        <div class="row-container">
+          <!-- Generate Report Section -->
+          <div class="half-section">
+            <h3>Generate Report</h3>
+            <button id="downloadReportBtn" type="button" class="action-button">
+              Download Report as CSV
+            </button>
+            <button id="viewLogsBtn" type="button" class="action-button">
+              View Logs
+            </button>
+          </div>
 
-          <!-- Enroll Student Form -->
-          <form id="enrollStudentForm">
-            <div class="form-field">
-              <label for="enrollStudentName">Enroll Student (Last Name):</label><br />
-              <input type="text" id="enrollStudentName" name="studentName" required />
-            </div>
-            <div class="form-field">
-              <label for="enrollClassNum">Select Class to Enroll:</label><br />
-              <!-- Dropdown populated with all available classes -->
-              <select id="enrollClassNum" name="classNum" required></select>
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="enrollStudentBtn">Enroll Student in Class</button>
-            </div>
-          </form>
-
-          <!-- Unenroll Student Form -->
-          <form id="unenrollStudentForm">
-            <div class="form-field">
-              <label for="unenrollStudentName">Unenroll Student (Last Name):</label><br />
-              <input type="text" id="unenrollStudentName" name="studentName" required />
-            </div>
-            <div class="form-field">
-              <label for="unenrollClassNum">Select Class to Unenroll From:</label><br />
-              <!-- Dropdown will be populated with only the classes in which the student is enrolled -->
-              <select id="unenrollClassNum" name="classNum" required></select>
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="unenrollStudentBtn">Unenroll Student from Class</button>
-            </div>
-          </form>
-
-          <!-- Delete Student Form (delete entirely) -->
-          <form id="deleteStudentForm">
-            <div class="form-field">
-              <label for="deleteStudentName">Delete Student (Last Name):</label><br />
-              <input type="text" id="deleteStudentName" name="studentName" required />
-            </div>
-            <div class="form-field action-button">
-              <button type="submit" id="deleteStudentBtn">Delete Student</button>
-            </div>
-          </form>
-          <div id="studentMsg" style="color: green"></div>
+          <!-- Database Management Section -->
+          <div class="half-section">
+            <h3>Database Management</h3>
+            <p>For advanced database management, you may open phpMyAdmin:</p>
+            <button type="button" onclick="window.open('http://localhost/phpmyadmin', '_blank')">
+              Open phpMyAdmin
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Bottom Container: Remaining sections centered vertically -->
+      <!-- Logout Section -->
       <div class="bottom-container">
-        <!-- Report Section -->
-        <section class="section-divider">
-          <h3>Generate Report</h3>
-          <button id="downloadReportBtn" type="button" class="action-button">
-            Download Report as CSV
-          </button>
-          <button id="viewLogsBtn" type="button" class="action-button">
-            View Logs
-          </button>
-        </section>
-
-        <!-- Database Management Section -->
-        <section class="section-divider">
-          <h3>Database Management</h3>
-          <p>For advanced database management, you may open phpMyAdmin:</p>
-          <button type="button" onclick="window.open('http://localhost/phpmyadmin', '_blank')">
-            Open phpMyAdmin
-          </button>
-        </section>
-
-        <!-- Logout Section -->
         <section>
           <button id="adminLogoutBtn" class="action-button">Logout</button>
           <div id="adminLogoutMsg" style="color: green; margin-top: 10px"></div>
@@ -183,3 +186,5 @@
     <script src="script.js" defer></script>
   </body>
 </html>
+
+
