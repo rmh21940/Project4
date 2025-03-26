@@ -53,7 +53,7 @@ if (!$row) {
     exit;
 }
 
-if ($adminPassword === $row['AdminPass']) {
+if (password_verify($adminPassword, $row['AdminPass'])) {
     $_SESSION['admin_logged_in'] = true;
     $_SESSION['adminName'] = $adminName;
 

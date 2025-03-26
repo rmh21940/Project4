@@ -1,8 +1,6 @@
 -- 1. Drop old database (if exists) and create a fresh one
 DROP DATABASE IF EXISTS VWLogin;
-
 CREATE DATABASE VWLogin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
 USE VWLogin;
 
 -- 2. Create the Students table
@@ -28,29 +26,46 @@ CREATE TABLE Enrollments (
     FOREIGN KEY (ClassNum) REFERENCES Classes(ClassNum)
 );
 
--- 5. Create the Admins table
+-- 5. Create the Admins table with hashed password storage and a flag for forcing password change
 CREATE TABLE Admins (
     AdminNum INT AUTO_INCREMENT,
     AdminName VARCHAR(255) NOT NULL,
     AdminPass VARCHAR(255) NOT NULL,
+    PasswordChangeRequired TINYINT(1) NOT NULL DEFAULT 1,
     PRIMARY KEY (AdminNum),
     UNIQUE KEY (AdminName)
 );
 
--- 6. Create the LoginLogs table with single-row session design
+-- Insert default admin user with hashed password for "password"
+INSERT INTO Admins (AdminName, AdminPass, PasswordChangeRequired)
+VALUES ('admin', '$2y$10$V2f7W5IoxJr/77BBn64bnO3ArKxlINSZW7C9bc2Yyd5vvlQ/2bLF2', 1);
+
+-- 6. Create the LoginLogs table 
 CREATE TABLE LoginLogs (
     LoginNum INT AUTO_INCREMENT,
     StudentName VARCHAR(255) NULL,
     AdminName VARCHAR(255) NULL,
-    ClassNum VARCHAR(6) NULL, 
+    ClassNum VARCHAR(6) NULL,
+    ClassNumber VARCHAR(6) NULL,  
     LoginTime TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     LogoutTime TIMESTAMP NULL,
     SessionStatus ENUM('IN','OUT') NOT NULL DEFAULT 'IN',
     PRIMARY KEY (LoginNum),
-    FOREIGN KEY (ClassNum) REFERENCES Classes(ClassNum)
+    FOREIGN KEY (ClassNum) REFERENCES Classes(ClassNum) ON DELETE SET NULL
 );
 
--- 7. Create events to clean up LoginLogs table with autoLogout and retention policy
+-- 7. Create a trigger to automatically set ClassNumber on INSERT
+DELIMITER //
+CREATE TRIGGER before_insert_loginlogs
+BEFORE INSERT ON LoginLogs
+FOR EACH ROW
+BEGIN
+    SET NEW.ClassNumber = NEW.ClassNum;
+END;
+//
+DELIMITER ;
+
+-- 8. Create events to clean up LoginLogs table with autoLogout and retention policy
 SET GLOBAL event_scheduler = ON;
 
 DROP EVENT IF EXISTS auto_logout_event;
@@ -74,3 +89,5 @@ DO
 -- Optional: Create indexes on LoginLogs to speed up queries
 CREATE INDEX idx_LoginLogs_Student ON LoginLogs(StudentName, LoginTime);
 CREATE INDEX idx_LoginLogs_Admin   ON LoginLogs(AdminName, LoginTime);
+
+

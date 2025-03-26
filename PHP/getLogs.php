@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 try {
     $stmt = $pdo->query("
-        SELECT LoginNum, StudentName, AdminName, ClassNum, LoginTime, LogoutTime, SessionStatus
+        SELECT LoginNum, StudentName, AdminName, ClassNumber, LoginTime, LogoutTime, SessionStatus
         FROM LoginLogs
         ORDER BY LoginTime DESC
     ");
@@ -17,3 +17,4 @@ try {
     echo json_encode(["success" => false, "message" => "Database error: " . $e->getMessage()]);
     exit;
 }
+

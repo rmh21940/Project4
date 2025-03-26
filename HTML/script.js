@@ -4,7 +4,9 @@ console.log(
   "Virginia Western Community College Cybersecurity Lab - Powered by Team 5 Solutions"
 );
 
-// Global Inactivity Timer (for login and logout pages)
+// =====================
+// Global Inactivity Timer (used by login and logout pages)
+// =====================
 function startInactivityTimer() {
   let inactivityTimeout;
   function resetInactivityTimer() {
@@ -18,12 +20,25 @@ function startInactivityTimer() {
   resetInactivityTimer();
 }
 
+// =====================
+// Shared Utility: Toggle Password Visibility
+// =====================
+function togglePasswordVisibility(event) {
+  const passField = document.getElementById("admin_pass");
+  if (passField) {
+    passField.type = event.target.checked ? "text" : "password";
+  }
+}
+
+// =====================
+// Page-Specific Logic (Runs After DOM Loads)
+// =====================
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded and ready.");
 
-  // ======================
-  // Login Page Functions
-  // ======================
+  // =====================
+  // Login Page (login.html)
+  // =====================
   if (document.body.id === "loginPage") {
     startInactivityTimer();
 
@@ -60,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       xhr.send();
     }
+
     document
       .getElementById("checkEnrollmentBtn")
       .addEventListener("click", fetchClasses);
@@ -88,14 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
       xhr.open("POST", "../PHP/studentLogin.php", true);
       xhr.send(formData);
     }
+
     document
       .getElementById("loginForm")
       .addEventListener("submit", handleLogin);
   }
 
-  // ======================
-  // Logout Page Functions (Single-Row Session)
-  // ======================
+  // =====================
+  // Logout Page (logout.html)
+  // =====================
   if (document.body.id === "logoutPage") {
     document
       .getElementById("logoutBtn")
@@ -254,10 +271,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ======================
-  // Admin Page Functions (Login with Force Logout Option)
-  // ======================
+  // =====================
+  // Admin Page (admin.html)
+  // =====================
   if (document.body.id === "adminPage") {
+    const showPasswordCheckbox = document.getElementById("showPasswordCheckbox");
+
+    // 🔧 DEBUG - Can remove these lines once confirmed working
+    if (!showPasswordCheckbox) {
+      console.error("Checkbox not found in DOM");
+    } else {
+      console.log("Checkbox found:", showPasswordCheckbox);
+      showPasswordCheckbox.addEventListener("change", togglePasswordVisibility);
+    }
+
     function handleAdminLogin(event) {
       event.preventDefault();
       const form = document.getElementById("adminForm");
@@ -281,12 +308,14 @@ document.addEventListener("DOMContentLoaded", () => {
               messageSpan.textContent = response.message;
               errDiv.appendChild(messageSpan);
               errDiv.appendChild(document.createElement("br"));
+
               const forceBtn = document.createElement("button");
               forceBtn.type = "button";
               forceBtn.textContent = "Force Logout & Re-Login";
               forceBtn.addEventListener("click", forceLogoutAndLogin);
               errDiv.appendChild(forceBtn);
               errDiv.appendChild(document.createTextNode(" "));
+
               const dashBtn = document.createElement("button");
               dashBtn.type = "button";
               dashBtn.textContent = "Proceed to Dashboard";
@@ -325,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ======================
-  // Admin Dashboard Page Functions
+  // Admin Dashboard Page Functions (admin_dashboard.html)
   // ======================
   if (document.body.id === "adminDashboardPage") {
     function resetDashboard() {

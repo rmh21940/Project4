@@ -36,7 +36,7 @@
             <th>LoginNum</th>
             <th>StudentName</th>
             <th>AdminName</th>
-            <th>ClassNum</th>
+            <th>ClassNumber</th>
             <th>LoginTime</th>
             <th>LogoutTime</th>
             <th>SessionStatus</th>
@@ -48,6 +48,7 @@
         Back to Dashboard
       </button>
     </div>
+    
     <footer>
       <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
       <p>Powered by Team 5 Solutions</p>
@@ -70,7 +71,7 @@
                   <td>${log.LoginNum}</td>
                   <td>${log.StudentName || ""}</td>
                   <td>${log.AdminName || ""}</td>
-                  <td>${log.ClassNum || ""}</td>
+                  <td>${log.ClassNumber || ""}</td>
                   <td>${log.LoginTime}</td>
                   <td>${log.LogoutTime || ""}</td>
                   <td>${log.SessionStatus}</td>
@@ -90,5 +91,5 @@
       }
       window.onload = loadLogs;
     </script>
-  </body>
+  </body>  
 </html>
