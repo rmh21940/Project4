@@ -1,4 +1,4 @@
-Summary of Enhancements and Fixes: Login System
+Summary of Enhancements and Fixes: Cybersecurity Lab Login System
 
 1. Password Expiration & Enforcement
     - Implemented 90-day password expiration policy for admin accounts.

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Raspberry Pi Kiosk Auto-Setup Script
+# Raspberry Pi Kiosk Auto-Setup Script v1
 
 # Exit on any error
 set -e

@@ -1,9 +1,0 @@
-# Disable directory browsing
-Options -Indexes
-
-# Prevent script.js or other internal files from being accessed directly
-<FilesMatch "\.(js|sql|json|sh|bat)$">
-  Order allow,deny
-  Deny from all
-</FilesMatch>
-

@@ -1,4 +1,4 @@
-# Raspberry Pi Kiosk Auto-Setup Script Instructions
+# Raspberry Pi Kiosk Auto-Setup Script Instructions v1
 
 This guide explains how to run the `raspberry_pi_kiosk_auto_setup.sh` script to configure your Raspberry Pi (model 4 or higher) as a kiosk for the Virginia Western Community College Cybersecurity Lab.
 

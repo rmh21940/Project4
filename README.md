@@ -122,7 +122,8 @@ Developed for the Virginia Western Community College Cybersecurity Program
 
 ## Status
 - **Version**: 1.0.0  
-- **Stage**: Production-ready
+- **Stage**: Production
+
 
 
 

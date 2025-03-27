@@ -1,4 +1,4 @@
-Raspberry Pi Kiosk Setup Instructions
+Raspberry Pi Kiosk Setup Instructions v1
 --------------------------------------------------
 
 Purpose: Set up a Raspberry Pi (model 4 or higher) as a plug-and-play kiosk for the Virginia Western Community College Cybersecurity Lab. This guide walks through preparing the system to be captured into a .img file that the client can flash onto an SD card for immediate use.
