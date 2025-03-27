@@ -1,4 +1,6 @@
-/* Global Styling */
+/* =======================
+   GLOBAL STYLING
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -6,20 +8,24 @@
   font-family: Arial, sans-serif;
 }
 
-/* Body Styling */
+/* =======================
+   BODY STYLING
+========================= */
 body {
   background-color: #0a0f1e;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Ensures content starts at the top */
+  justify-content: flex-start;
   min-height: 100vh;
   text-align: center;
   padding-top: 20px;
 }
 
-/* Header */
+/* =======================
+   HEADER STYLING
+========================= */
 .header {
   padding: 20px;
   background-color: #121b35;
@@ -37,34 +43,71 @@ body {
   margin-top: 5px;
 }
 
-/* Content Section */
+/* =======================
+   CONTENT CONTAINER
+========================= */
 .content {
   margin-top: 30px;
   padding: 20px;
   width: 90%;
-  max-width: 1000px; /* Increased to accommodate wider tables */
+  max-width: 1000px;
   background-color: #1a2238;
   border-radius: 5px;
   box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
-  margin-bottom: 30px; /* Adds space at the bottom if needed */
+  margin-bottom: 30px;
 }
 
-/* Button Container for Vertical Layout */
-.button-container {
+/* =======================
+   ADMIN LOGIN / RESET FORMS
+========================= */
+
+.form-box {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.password-reset-box {
+  margin: 40px auto 0;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
-.button-container button {
-  width: 200px;
-  height: 50px;
-  font-size: 1.2em;
-  cursor: pointer;
+.warning-text {
+  color: darkorange;
+  font-size: 0.95em;
 }
 
-/* Footer (Team 5 Solutions Branding) */
+.error-text {
+  color: red;
+  margin-top: 10px;
+}
+
+.status-text {
+  color: red;
+  margin-top: 15px;
+}
+
+.small-checkbox-label {
+  font-size: 0.9em;
+}
+
+.btn-margin-top {
+  margin-top: 10px;
+}
+
+
+/* =======================
+   FOOTER STYLING
+========================= */
 footer {
   margin-top: auto;
   padding: 10px;
@@ -81,9 +124,11 @@ footer p {
   opacity: 0.8;
 }
 
-/* Login Logs Table Styles */
+/* =======================
+   TABLE STYLING (LOGIN LOGS)
+========================= */
 #logsTable {
-  width: 100%; /* Ensures the table fills the content container */
+  width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
 }
@@ -99,3 +144,25 @@ footer p {
   background-color: #121b35;
   color: #fff;
 }
+
+/* =======================
+   HOMEPAGE BUTTON STACKING + BIGGER BUTTONS
+   ======================= */
+   body#indexPage .button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  body#indexPage .button-container button {
+    width: 250px;         /* wider */
+    height: 70px;         /* taller */
+    font-size: 1.5em;      /* larger text */
+    font-weight: bold;    /* more readable */
+    cursor: pointer;
+  }
+
+
+
+  

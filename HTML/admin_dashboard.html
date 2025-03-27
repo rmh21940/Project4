@@ -3,8 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page Title -->
     <title>Admin Dashboard - Cybersecurity Lab</title>
+
+    <!-- External CSS file for shared styles -->
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Internal styles specific to dashboard layout -->
     <style>
       .form-field {
         margin-bottom: 10px;
@@ -23,20 +29,18 @@
         margin-top: 5px;
       }
 
-      /* Grid layout with 2 rows of 2 columns */
+      /* Responsive layout with rows and columns */
       .grid-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
       }
-
       .row-container {
         display: flex;
         gap: 20px;
         justify-content: space-between;
         flex-wrap: wrap;
       }
-
       .half-section {
         flex: 1 1 45%;
         background-color: #1a2238;
@@ -44,7 +48,6 @@
         border-radius: 5px;
         box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.3);
       }
-
       .bottom-container {
         margin-top: 30px;
         display: flex;
@@ -53,20 +56,27 @@
       }
     </style>
   </head>
+
   <body id="adminDashboardPage">
+    <!-- === Header Branding === -->
     <div class="header">
       <h1>Virginia Western Community College</h1>
       <h2>Cybersecurity Lab - Admin Dashboard</h2>
     </div>
+
+    <!-- === Dashboard Content Area === -->
     <div class="content" style="max-width: 1200px; margin: 0 auto;">
-      <!-- Grid Container with two rows -->
+
+      <!-- === Top Row: Class and Student Management === -->
       <div class="grid-container">
-        <!-- Top Row: Manage Classes and Students -->
         <div class="row-container">
-          <!-- Manage Classes Section -->
+
+          <!-- === Manage Classes Section === -->
           <div class="half-section">
             <h3>Manage Classes<br /><br />Add Class<br /><br /></h3>
-              <form id="addClassForm">
+
+            <!-- Add New Class Form -->
+            <form id="addClassForm">
               <div class="form-field">
                 <label for="className">Class Name:</label><br />
                 <input type="text" id="className" name="className" required />
@@ -81,9 +91,10 @@
               </div>
             </form>
 
+            <!-- Delete Existing Class Form -->
             <form id="deleteClassForm">
               <div class="form-field">
-                <h3> <br /> <br />Delete Class<br /><br /></h3>
+                <h3><br /><br />Delete Class<br /><br /></h3>
                 <label for="classNumDel">Select Class:</label><br />
                 <select id="classNumDel" name="classNum" required></select>
               </div>
@@ -91,12 +102,16 @@
                 <button type="submit" id="deleteClassBtn">Delete Class</button>
               </div>
             </form>
+
+            <!-- Class operation status messages -->
             <div id="classMsg" style="color: green"></div>
           </div>
 
-          <!-- Manage Students Section -->
+          <!-- === Manage Students Section === -->
           <div class="half-section">
             <h3>Manage Students</h3>
+
+            <!-- Add Student -->
             <form id="addStudentForm">
               <div class="form-field">
                 <label for="newStudentName">Add Student (Last Name only):</label><br />
@@ -107,6 +122,7 @@
               </div>
             </form>
 
+            <!-- Enroll Student in Class -->
             <form id="enrollStudentForm">
               <div class="form-field">
                 <label for="enrollStudentName">Enroll Student (Last Name):</label><br />
@@ -121,6 +137,7 @@
               </div>
             </form>
 
+            <!-- Unenroll Student from Class -->
             <form id="unenrollStudentForm">
               <div class="form-field">
                 <label for="unenrollStudentName">Unenroll Student (Last Name):</label><br />
@@ -135,6 +152,7 @@
               </div>
             </form>
 
+            <!-- Delete Student Record -->
             <form id="deleteStudentForm">
               <div class="form-field">
                 <label for="deleteStudentName">Delete Student (Last Name):</label><br />
@@ -144,13 +162,16 @@
                 <button type="submit" id="deleteStudentBtn">Delete Student</button>
               </div>
             </form>
+
+            <!-- Student operation status messages -->
             <div id="studentMsg" style="color: green"></div>
           </div>
         </div>
 
-        <!-- Bottom Row: Generate Report and Database Management -->
+        <!-- === Bottom Row: Reports and Database Tools === -->
         <div class="row-container">
-          <!-- Generate Report Section -->
+
+          <!-- Download CSV Report or View Logs -->
           <div class="half-section">
             <h3>Generate Report</h3>
             <button id="downloadReportBtn" type="button" class="action-button">
@@ -161,7 +182,7 @@
             </button>
           </div>
 
-          <!-- Database Management Section -->
+          <!-- Quick Access to phpMyAdmin -->
           <div class="half-section">
             <h3>Database Management</h3>
             <p>For advanced database management, you may open phpMyAdmin:</p>
@@ -172,7 +193,7 @@
         </div>
       </div>
 
-      <!-- Logout Section -->
+      <!-- === Logout Section === -->
       <div class="bottom-container">
         <section>
           <button id="adminLogoutBtn" class="action-button">Logout</button>
@@ -180,12 +201,15 @@
         </section>
       </div>
     </div>
+
+    <!-- === Footer Branding === -->
     <footer>
       <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
       <p>Powered by Team 5 Solutions</p>
     </footer>
+
+    <!-- Load JS after DOM is parsed -->
     <script src="script.js" defer></script>
   </body>
 </html>
-
 

@@ -2,36 +2,68 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Ensure mobile-friendly scaling -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title -->
     <title>Student Logout - Cybersecurity Lab</title>
+
+    <!-- Link to shared CSS file -->
     <link rel="stylesheet" href="styles.css" />
   </head>
+
+  <!-- Page ID for logout-specific styling or JS behavior -->
   <body id="logoutPage">
+    <!-- === Header Branding === -->
     <div class="header">
       <h1>Virginia Western Community College</h1>
       <h2>Cybersecurity Lab - Student Logout</h2>
     </div>
+
+    <!-- === Main Content Area === -->
     <div class="content">
       <h3>Student Logout</h3>
+
+      <!-- Logout Form -->
       <form id="logoutForm">
+        <!-- Last Name input (used to identify the student and retrieve active sessions) -->
         <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required />
-        <!-- Single logout button to trigger session retrieval and logout logic -->
+        <input type="password" id="last_name" name="last_name" required />
+
+        <!-- Logout button (triggers session fetch & logout logic via JS) -->
         <button type="button" id="logoutBtn">Logout</button>
-        <!-- This container will be populated dynamically if dropdowns are needed -->
+
+        <!-- Show last name toggle -->
+        <div style="margin-top: 5px; font-size: 0.9em">
+          <label>
+            <input type="checkbox" id="showLastNameCheckbox" />
+            Show Last Name
+          </label>
+        </div>
+
+        <!-- This div will be dynamically populated if multiple sessions are found -->
         <div id="dropdownContainer"></div>
       </form>
+
+      <!-- Messages for feedback -->
       <div id="successMsg" style="color: green"></div>
       <div id="errorMsg" style="color: red"></div>
+
+      <!-- Extra navigation buttons -->
       <div class="extra-buttons">
         <button onclick="window.location.href='index.html'">Home</button>
         <button onclick="window.location.href='login.html'">Go to Login</button>
       </div>
     </div>
+
+    <!-- === Footer Branding === -->
     <footer>
       <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
       <p>Powered by Team 5 Solutions</p>
     </footer>
+
+    <!-- JavaScript handles logout logic and dynamic dropdown creation -->
     <script src="script.js" defer></script>
   </body>
 </html>

@@ -2,32 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
+  <!-- Ensure proper scaling on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Page Title -->
   <title>Virginia Western Community College Cybersecurity Lab</title>
+
+  <!-- External CSS -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Compatibility for older IE versions -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
-<body>
+
+<body id="indexPage">
+  <!-- === Page Header === -->
   <div class="header">
     <h1>Virginia Western Community College</h1>
     <h2>Cybersecurity Lab</h2>
   </div>
   
+  <!-- === Navigation Buttons === -->
   <div class="content">
     <div class="button-container">
+      <!-- Button to student login page -->
       <button onclick="window.location.href='login.html'">Login</button>
+
+      <!-- Button to student logout page -->
       <button onclick="window.location.href='logout.html'">Logout</button>
+
+      <!-- Button to admin login/dashboard page -->
       <button onclick="window.location.href='admin.html'">Admin</button>
     </div>
   </div>
 
+  <!-- === Footer Branding === -->
   <footer>
     <img src="images/team5-logo.png" alt="Team 5 Solutions Logo">
     <p>Powered by Team 5 Solutions</p>
   </footer>
 
+  <!-- JavaScript loaded after the DOM -->
   <script src="script.js" defer></script>
 </body>
 </html>
+
 
 

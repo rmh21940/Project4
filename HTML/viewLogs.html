@@ -2,9 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Ensures responsive layout on all devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title -->
     <title>View Login Logs - Cybersecurity Lab</title>
+
+    <!-- Shared CSS for global styles -->
     <link rel="stylesheet" href="styles.css" />
+
+    <!-- Local styles for the logs table layout -->
     <style>
       table {
         border-collapse: collapse;
@@ -23,13 +31,19 @@
       }
     </style>
   </head>
+
   <body>
+    <!-- === Header Branding === -->
     <div class="header">
       <h1>Virginia Western Community College</h1>
       <h2>Cybersecurity Lab - Login Logs</h2>
     </div>
+
+    <!-- === Logs Content Area === -->
     <div class="content">
       <h3>Login Logs</h3>
+
+      <!-- Table that will be populated via JavaScript -->
       <table id="logsTable">
         <thead>
           <tr>
@@ -44,51 +58,69 @@
         </thead>
         <tbody></tbody>
       </table>
+
+      <!-- Navigation button back to admin dashboard -->
       <button onclick="window.location.href='admin_dashboard.html'">
         Back to Dashboard
       </button>
     </div>
-    
+
+    <!-- === Footer Branding === -->
     <footer>
       <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
       <p>Powered by Team 5 Solutions</p>
     </footer>
+
+    <!-- === JavaScript to load logs from backend API === -->
     <script>
       function loadLogs() {
         const xhr = new XMLHttpRequest();
+
         xhr.onreadystatechange = function () {
           if (this.readyState === 4 && this.status === 200) {
             try {
+              // Parse the JSON response from the backend
               const response = JSON.parse(this.responseText);
+
               if (response.success && response.logs) {
+                // Target the tbody of the logs table
                 const tbody = document
                   .getElementById("logsTable")
                   .getElementsByTagName("tbody")[0];
-                tbody.innerHTML = "";
+
+                tbody.innerHTML = ""; // Clear previous contents
+
+                // Loop through each log and add a new table row
                 response.logs.forEach((log) => {
                   const tr = document.createElement("tr");
                   tr.innerHTML = `
-                  <td>${log.LoginNum}</td>
-                  <td>${log.StudentName || ""}</td>
-                  <td>${log.AdminName || ""}</td>
-                  <td>${log.ClassNumber || ""}</td>
-                  <td>${log.LoginTime}</td>
-                  <td>${log.LogoutTime || ""}</td>
-                  <td>${log.SessionStatus}</td>
-                `;
+                    <td>${log.LoginNum}</td>
+                    <td>${log.StudentName || ""}</td>
+                    <td>${log.AdminName || ""}</td>
+                    <td>${log.ClassNumber || ""}</td>
+                    <td>${log.LoginTime}</td>
+                    <td>${log.LogoutTime || ""}</td>
+                    <td>${log.SessionStatus}</td>
+                  `;
                   tbody.appendChild(tr);
                 });
+
               } else {
                 alert("No logs found.");
               }
+
             } catch (e) {
               console.error("Error parsing logs:", e);
             }
           }
         };
+
+        // Request login logs from the backend API
         xhr.open("GET", "../PHP/getLogs.php", true);
         xhr.send();
       }
+
+      // Automatically run loadLogs when the page loads
       window.onload = loadLogs;
     </script>
   </body>  

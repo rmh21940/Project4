@@ -1,50 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Login - Cybersecurity Lab</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body id="adminPage">
-    <div class="header">
-      <h1>Virginia Western Community College</h1>
-      <h2>Cybersecurity Lab - Admin Login</h2>
-    </div>
-    <div class="content">
-      <h3>Admin Login</h3>
-      <form
-        id="adminForm"
-        style="
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          max-width: 300px;
-          margin: 0 auto;
-        "
-      >
-        <label for="admin_name">Admin Username:</label>
-        <input type="text" id="admin_name" name="admin_name" required />
 
-        <label for="admin_pass">Password:</label>
-        <input type="password" id="admin_pass" name="admin_pass" required />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <label style="font-size: 0.9em;">
-          <input type="checkbox" id="showPasswordCheckbox" />
-          Show Password
-        </label>
+  <!-- Page Title -->
+  <title>Admin Login - Cybersecurity Lab</title>
 
-        <button type="submit" id="adminLoginBtn" style="margin-top: 10px">
-          Login
-        </button>
-      </form>
-      <!-- Error message area; will also be used to show options if already logged in -->
-      <div id="errorMsg" style="color: red; margin-top: 15px"></div>
-    </div>
-    <footer>
-      <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
-      <p>Powered by Team 5 Solutions</p>
-    </footer>
-    <script src="script.js" defer></script>
-  </body>
+  <!-- Link to external stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body id="adminPage">
+  <!-- === Page Header === -->
+  <div class="header">
+    <h1>Virginia Western Community College</h1>
+    <h2>Cybersecurity Lab - Admin Login</h2>
+  </div>
+
+  <!-- === Main Login Form Section === -->
+  <div class="content">
+    <h3>Admin Login</h3>
+    <br>
+
+    <!-- Admin login form -->
+    <form id="adminForm" class="form-box">
+      <label for="admin_name">Username:</label>
+      <input type="text" id="admin_name" name="admin_name" required />
+
+      <label for="admin_pass">Password:</label>
+      <input type="password" id="admin_pass" name="admin_pass" required />
+
+      <label class="small-checkbox-label">
+        <input type="checkbox" id="showPasswordCheckbox" />
+        Show Password
+      </label>
+
+      <button type="submit" id="adminLoginBtn" class="btn-margin-top">
+        Login
+      </button>
+    </form>
+
+    <!-- Error or status messages -->
+    <div id="errorMsg" class="status-text"></div>
+
+    <!-- Password change form (initially hidden) -->
+    <form id="passwordResetForm" class="form-box password-reset-box" style="display: none">
+      <h3>Change Password</h3>
+      <div id="passwordResetWarning" class="warning-text"></div>
+
+      <div class="form-row">
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" required />
+      </div>
+
+      <div class="form-row">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required />
+      </div>
+
+      <label class="small-checkbox-label">
+        <input type="checkbox" id="showNewPasswordCheckbox" />
+        Show Password
+      </label>
+
+      <button id="resetPasswordBtn" class="btn-margin-top">
+        Update Password
+      </button>
+
+      <div id="resetPasswordMsg" class="error-text"></div>
+    </form>
+
+    <!-- Return Button -->
+    <button onclick="window.location.href='index.html'" class="btn-margin-top">
+      Home
+    </button>
+  </div>
+
+  <!-- === Footer Branding === -->
+  <footer>
+    <img src="images/team5-logo.png" alt="Team 5 Solutions Logo" />
+    <p>Powered by Team 5 Solutions</p>
+  </footer>
+
+  <!-- JS Script -->
+  <script src="script.js" defer></script>
+</body>
+
 </html>
