@@ -2,6 +2,10 @@
 -- VWLogin: Database Setup Script
 -- ===============================
 
+-- This script sets up the VWLogin database schema for a login and class tracking system.
+-- It includes Students, Classes, Admins (with password policies), and LoginLogs.
+
+
 -- 1. Drop old database (if exists) and create a fresh one
 DROP DATABASE IF EXISTS VWLogin;
 CREATE DATABASE VWLogin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

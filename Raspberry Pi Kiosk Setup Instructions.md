@@ -116,6 +116,10 @@ If your project includes SQL schema files for the database, import them:
 
 The Raspberry Pi will boot to desktop and launch the login page in full-screen mode.
 
+8. Remove the testData.sql file from the database folder
+---------------------------------------------------------
+This is the production files the client does not need a testData file as they will be loading their own data to the tables    
+
 Final Step
 ----------
 At this point, the Raspberry Pi is fully configured as a kiosk system and ready for use. You may now capture this setup as a .img file to distribute to the client for flashing onto additional SD cards.

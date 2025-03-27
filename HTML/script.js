@@ -589,9 +589,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const newPass = newPassField.value.trim();
           const confirmPass = confirmPassField.value.trim();
 
-          console.log("New Password:", newPass);
-          console.log("Confirm Password:", confirmPass);
-
           if (!newPass || !confirmPass) {
             resetPasswordMsg.innerText = "Both fields are required.";
             return;
