@@ -1,5 +1,0 @@
-# Deny direct browser access to all PHP files
-<FilesMatch "\.php$">
-    Order Deny,Allow
-    Deny from all
-</FilesMatch>
